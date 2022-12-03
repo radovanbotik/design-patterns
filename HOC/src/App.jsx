@@ -6,6 +6,7 @@ import { withUser2 } from "./components/withUser2";
 import { withEditabledUser } from "./components/withEditabledUser";
 import { UserInfoForm } from "./components/UserInfoForm";
 import Form from "./components/Form";
+import ResourceForm from "./components/ResourceForm";
 
 //userinfowrapped is the component that we are returning from
 //printprop function
@@ -22,6 +23,7 @@ function App() {
       {/* <EditableUser /> */}
       {/* <UserInfoForm /> */}
       <Form />
+      <ResourceForm />
     </>
   );
 }
