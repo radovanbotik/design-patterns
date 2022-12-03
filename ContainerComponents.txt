@@ -1,0 +1,33 @@
+					Container Components
+
+1.Components that take care of loading and managing data for their child components.
+2.Components shouldnt know where their data is coming from.
+<container>
+	<child1/>
+	<child2/>
+	<child3/>
+<container/>
+
+normally  
+each child fetches data and then renders them
+const Child1 = () => {
+//load data...
+return(
+//display data
+)
+}
+
+instead 
+data is fetched once in container and then redisributed to children
+const Container = () => {
+//load data...
+return (
+//pass data to children
+)
+}
+
+const Child1 = ({children}) => {
+return(
+//display data
+)
+}

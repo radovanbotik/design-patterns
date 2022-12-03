@@ -1,0 +1,130 @@
+							Layout Components:
+
+1.Split Screens
+2. Lists and items
+3.Modals
+
+### the main idea of layout components is that the components shouldnt know
+where they will be displayed on the page
+
+
+1.Split screen
+
+1.create component for left side
+export const Leftside = () => {
+  return <h1>left</h1>;
+};
+
+2.create component for right side
+export const Rightside = () => {
+  return <h1>right</h1>;
+};
+
+3.create component that accepts component for each side and renders them
+export const SplitScreen = props => {
+  const { left: Left, right: Right } = props;
+  return (
+    <Container>
+      <Pane>
+        <Left />
+      </Pane>
+      <Pane>
+        <Right />
+      </Pane>
+    </Container>
+  );
+};
+
+4.import component for each side to parent element and then pass it to the component
+that is supposed to render them
+function App() {
+  return (
+    <>
+      <SplitScreen left={Leftside} right={Rightside} />
+    </>
+  );
+}
+
+
+
+
+							better way
+
+1.create component for left side 
+
+	a.it accepts and renders the only parameter that it receives
+
+export const Leftside = ({ firstname }) => {
+  return <h1>{firstname}</h1>;
+};
+
+2.create component for right side
+
+	a.it accepts and renders only one parameter that it  receives
+
+export const Rightside = ({ lastname }) => {
+  return <h1>{lastname}</h1>;
+};
+
+3.create component that renders both components
+	
+	a.this component receives props that are being passed down from App component
+	b.it receives css props but also CHILDREN which represent two components.
+	c.we extract children from props and then destructure CHILDREN ARRAY 
+	  in order so gain access to our components. next we render them using object notation.
+	
+
+export const SplitScreen = (props) => {
+
+const [left, right] = props.children;
+  const {
+    // left: Left,
+    // right: Right,
+    leftWidth = 1,
+    rightWidth = 1,
+    leftColor = "grey",
+    rightColor = "grey",
+  } = props;
+
+
+ return (
+    <Container>
+      <Pane width={leftWidth} bg={leftColor}>
+        {left}
+      </Pane>
+      <Pane width={rightWidth} bg={rightColor}>
+        {right}
+      </Pane>
+    </Container>
+  );
+}; 
+
+const Container = styled.div`
+  display: flex;
+`;
+
+const Pane = styled.div`
+  flex: ${props => props.width};
+  background-color: ${props => props.bg};
+`;
+
+
+4.in the APP we pass name parameters to our side components, which they render later
+
+function App() {
+  return (
+    <>
+      <SplitScreen
+        // left={Leftside}
+        // right={Rightside}
+        leftWidth={1}
+        rightWidth={2}
+        leftColor={"gold"}
+        rightColor={"orangered"}
+      >
+        <Leftside firstname={"rado"} />
+        <Rightside lastname={"botik"} />
+      </SplitScreen>
+    </>
+  );
+}

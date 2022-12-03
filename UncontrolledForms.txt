@@ -1,0 +1,21 @@
+                         Uncontrolled Form
+
+1. We create ref with React.createRef() store it into variable and then 
+   use this variable to reference it in the element
+   const nameInput = React.createRef();
+   <input type='text' name='name' ref={nameInput}/>
+2. So we have to create ref for each individual input
+3. On submit we then gather the data from the refs:
+
+    using input.current.value
+
+const handleSubmit = () => {
+    console.log(
+        firstNameInput.current.value,
+        lastNameInput.current.value
+        ...
+    )
+}
+
+In the end nothing is happening until submit event is fired.
+Only then we receive info from the inputs.

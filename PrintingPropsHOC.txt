@@ -1,0 +1,49 @@
+                    Printing props with HOCS
+
+1.  We create a HOC that sort of works like a container
+    this HOC accepts another component as a parameter
+
+2.  from HOC we return a new function that can accept props.
+
+3.  and from this new function we return new component and we can pass those props.
+
+const printProps = (AnotherComponent) => {
+    
+    return (props)=>{
+        console.log(props);
+        return=>{
+            <AnotherComponent {...props}/>
+        }
+    }
+}
+
+
+props => {
+    console.log(props);
+    return <Component {...props} />;
+};
+
+THIS IS BASICLY JUST OUR NEW COMPONENT USERINFOWRAPPED
+a component that logs props and returns UserInfoComponent
+
+
+------------------------------------
+1.We create a new constant UserInfoWrap which will be our new component
+2.We store the value of printProps into it, that means printProps
+is not invoked like this <printProps/> and therefore it doesnt follow
+naming conventions, so we write HOCS with small first letter.
+
+const UserInfoWrap = printProps(UserInfo)
+
+inside App we want to render UserInfoWrap 
+
+const App () =>{
+   return <UserInfoWrap prop1={"hi"} props={[1,2,3]}/>
+}
+
+3.UserInfoWrap now consolelogs but also returns a component that we created
+previously(UserInfo)
+
+4.We are basicly consolelogging new props and returning old component
+with access to the new props
+

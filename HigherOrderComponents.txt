@@ -1,0 +1,13 @@
+                                Higher Order Components
+
+1.  Higher order components are components that rather than JSX
+    return another component.
+
+    HOC ---> SomeComponent ---> JSX <h1>hi this is title</h1>
+
+    Basicly they are just functions that return components.
+
+2.  Use:
+    #Sharing complex behavior between multiple components
+    (Similiar to container components)
+    #Adding extra functionality to existing components

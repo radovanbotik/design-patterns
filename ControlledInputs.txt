@@ -1,0 +1,34 @@
+                        Controlled Forms / Inputs
+Allows us to do form valdiation before submit
+
+useEffect(()=>{
+    if(state.length < 3){
+        console.log('too short')
+    }
+},[state])
+
+-------------------------------------
+
+const [name,setName] = useState('');
+const [errorMessage,setErrorMessage] = useState('')
+
+useEffect(()=>{
+    if(name.length < 2){
+        setErrorMessage('name needs to be 5characters long')
+    }else{
+        setErrorMessage('')
+    }
+},[name])
+
+
+return(
+    <form>
+        {errorMessage && <p>{errorMessage}</p>}
+        <input value={name} onChange={(e)=>setName(e.target.value)}
+    </form>
+)
+
+
+We use two way binding to manage data between input and state
+setState function inside onChange event updates state
+and then the state controls the value inside the input through value attribute. 

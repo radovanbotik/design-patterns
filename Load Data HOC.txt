@@ -1,0 +1,48 @@
+                        Loading Data with HOC
+
+1.  We create HOC that accepts 2 paramters a Component and a 
+    userID of user we want to render
+
+2.  we define state where we want to save user data to
+    const [user,setUser] = useState(null)
+
+3.  we use useEffect and IIFE to load user and store user into state
+    useEffect(()=>{
+        (async ()=>{
+            const resp = await axios.get(`url`${userId})
+            setUser(resp.data.data)
+        })()
+    },[userId])
+
+4.  we return component that we were passed with previous props
+    and the new user props
+
+    return <AnotherComponent {...props} user={user}/>
+
+
+const withUser = (Component,userId) =>{
+    return props => {
+    ****this is body of component****
+        useState
+        useEffect
+        return <Component {...props} user={user}/>
+    ****this is body of component****
+    }
+}
+
+-------------------------------------------------------------
+THIS IS HOC
+2 PARAMS
+const withUser = (Component,userID) => {
+
+#PROPS is coming from the outside component
+const WithUser = withUser(user,2)
+This is where the props comes from
+<WithUser prop={"prop1"} prop2 = 26/>
+
+return (PROPS) => {
+    This is body of our new component WithUser
+    We use use state and use effect to get user data and then we pass it
+    to the component along with props from outside that we already have and then return it
+    return <Component {...PROPS} user={user} >
+}

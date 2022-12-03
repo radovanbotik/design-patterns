@@ -1,0 +1,85 @@
+                            Uncontrolled Onboarding Flows
+
+Onboarding flow is basicly just a component that display different steps
+in onboarding process
+#step one: asks for name
+#step two: asks for age
+#step three: asks for billing information
+etc...
+
+1. We create Onboarding component that accepts 2 parameters:
+    1.1 children
+    1.2 onFinish
+
+2. Inside the Onboarding component we declare 2 states:
+    1.state for all the data
+    const [onboardingData, setOnboardingData] = useState({});
+    2.state for the index of current step
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+3. We create currentChild variable that represents the current step
+   in onboarding process
+   const currentChild = React.Children.toArray(children)[currentIndex];
+   
+   React.Children.toArray(children) = 
+   just a backup in case children is just a single component/element
+
+    we then check if currentChild is valid react element
+    
+    if (React.isValidElement(currentChild)) {
+    
+    if it is we return the clone of element that replaces that element
+    
+    and the new clone will now accept one parameter { goToNext}
+    
+    return React.cloneElement(currentChild, { goToNext });
+    
+    }
+
+4.in the App component we render our Onboarding component and
+  nest 3 other step components Inside,
+  each children component accepts 1 prop
+
+const StepOne = ({ goToNext }) => (
+  <>
+    <button onClick={goToNext}>Next Step</button>
+    <h1>step 1</h1>
+  </>
+);
+
+<UnconOnboardingFlows>
+    <StepOne />
+    <StepTwo />
+    <StepThree />
+</UnconOnboardingFlows>
+
+5.Inside onboarding component we declare goToNext prop which
+is basicly just a function that increases state of currentIndex by 1
+
+
+const goToNext = () => {
+    setCurrentIndex(prev => prev + 1);
+  };
+
+6.next we can change the goToNext function.
+    6.1 goToNext accepts 1 parameter stepData it is equal to whatever we want to pass down
+    during that step
+    6.2 we create nextIndex variable that just increases currentIndex by 1
+    const nextIndex = currentIndex + 1
+    6.3 we create updatedData object which stores the data that we pass in each step 
+    const updatedData = {
+      ...onboardingData,
+      ...stepData,
+    };
+    ...onboardingData just extracts whatever was stored in the state in previous steps
+    6.4 we check if nextIndex is smaller than length of children array
+    if it is we keep increasing the currentIndex
+    setCurrentIndex(nextIndex)
+    if it is not it means we reached the final step and we want to run onFinish function
+    onFinish function is passed the updatedData, basicly all data from previous steps.
+    6.5 we set setter function of state to accept updated data,
+    setOnboardingData(updatedData);
+    this way we collect and store from each step
+
+    7. in the app we can run goToNext function onclick in each component and on onClick
+    we invoke goToNext function with some value, like object {name:"peter"}

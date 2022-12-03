@@ -1,0 +1,12 @@
+                Controlled and Uncontrolled Components
+1.Uncontrolled Components:
+    Components that keep track of their own states and release data
+    only when some even occurs
+    (e.g hitting submit button form)
+
+2.Controlled Components:
+    Components that do not keep track of their own states all state
+    is passed in as props
+    (e.g using useState hook with text inputs)
+
+    --preffered type

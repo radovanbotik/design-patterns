@@ -1,0 +1,49 @@
+						Resource Loader
+
+1.We modify the loader to receive 3 parameters :
+	1.1 resourceUrl - endpoint where we make call to
+	1.2 resourceName - type of resource we want because this component is reusable
+				 we might want to render different data. children will
+				 accept different different props user/product etc.. 
+	1.3 children
+
+
+2.We update dependancy array to include resourceUrl and resourceName
+
+------------------------------------------------------------------------------------
+const clonedElement = cloneElement(
+  <Row title="Cabbage" />,
+  { isHighlighted: true }
+);
+Here, the resulting cloned element will be <Row title="Cabbage" isHighlighted={true} />.
+-----------------------------------------------------------------------------------
+
+3.resource name is basicly name of the prop that the child component accepts
+user:state(the data we fetched) so we are passing props to children 
+under name of user
+
+return (
+    <>
+      {React.Children.map(children, child => {
+        if (React.isValidElement(child)) {
+          return React.cloneElement(child, { [resourceName]: state });
+        }
+        return child;
+      })}
+    </>
+  );
+
+4.App component
+
+<ResourceLoader
+ resourceUrl={"https://reqres.in/api/users/3"}
+ resourceName={"user"}
+ >
+ <UserInfo />
+</ResourceLoader>
+
+5.UserInfo Component
+
+export const UserInfo = ({ user }) => {
+....
+}

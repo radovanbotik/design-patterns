@@ -1,0 +1,129 @@
+                        formHOC
+1.  we create new HOC that accepts 2 paramters:
+    1.1 Component
+    2.1 UserId
+
+    basicly just function that returns Component
+
+    const hoc = (Component,userId) =>{
+        return (props) =>{}
+    }                       
+
+2.  inside the body we want to declare 2 states
+    one for original fetched data and one for modified data
+    and handle fetching data, changing data, reseting data, saving data
+
+    const hoc = (Component,userId) => {
+        return (props) => {
+            const [originalData,setOriginalData] = useState(null)
+            const [inputData,setInputData] = useState(null)
+
+            //handle load user - fetch data
+            useEffect(()=>{
+                (
+                    async ()=> {
+                        const resp = await axios.get(`url/${userId}`)
+                        setOriginalData(resp.data.data)
+                        setInputData(resp.data.data)
+                    }
+                )()
+            },[])
+
+            //handle user input
+            handleChange = (changes) =>{
+                setInputData((prev)=>({...prev,...changes}))
+            }
+            
+            //handle save
+            const save = async () => {
+                const resp = axios.post(`url/${UserId}`,{inputData})
+                setOriginalData(inputData)
+            }
+            
+            //handle changes discard
+            const discard = () => {
+                setInputData(originalData)
+            }
+        }
+    }
+
+    3. returning new component and passing all these functions as props
+
+    const hoc = (Component,userId) => {
+        return (props) => {
+            const [originalData,setOriginalData] = useState(null)
+            const [inputData,setInputData] = useState(null)
+
+            //handle load user - fetch data
+            useEffect(()=>{
+                (
+                    async ()=> {
+                        const resp = await axios.get(`url/${userId}`)
+                        setOriginalData(resp.data.data)
+                        setInputData(resp.data.data)
+                    }
+                )()
+            },[])
+
+            //handle user input
+            handleChange = (changes) =>{
+                setInputData((prev)=>({...prev,...changes}))
+            }
+            
+            //handle save
+            const handleSave = async () => {
+                const resp = axios.post(`url/${UserId}`,{inputData})
+                setOriginalData(inputData)
+            }
+            
+            //handle changes discard
+            const handleDiscard = () => {
+                setInputData(originalData)
+            }
+
+            return <Component 
+                    handleChange = {handleChange}
+                    handleSave = {handleSave}
+                    handleDiscard = {handleDiscard}
+                    inputData = {inputData} 
+                    />
+        }
+    }
+
+    4.  we create new component
+        we import the HOC
+        new component is equal to HOC and HOC takes in 2 parameters
+            1.component which will be our form 
+            2.userId
+        
+        **const ComponentWeRender = hoc( ()=>{}, userId)**
+
+        const Form = formHOC((props)=>{
+            const {handleChange,handleSave,handleDiscard,inputData} = props;
+            const {first_name,last_name,email} = inputData || {}
+            return inputData ? 
+            (<form>
+
+                <label>
+                    enter first name
+                    <input 
+                        value={first_name} 
+                        name={first_name}
+                        onChange={e=>handleChange({[e.target.name]:e.target.value})}
+                    />
+                <label/>
+                <button type='button' onClick={handleSave}>save</button>
+                <button type='button' onClick={handleDiscard}>discard</button>
+            </form>) 
+            
+            : '<p>...loading</p>'
+        },userId)
+
+
+        5.In the app we render our Form component
+        
+        const App = () => {
+            return (
+                <Form/>
+            )
+        }

@@ -1,0 +1,36 @@
+                    Controlled Modal
+
+1.We create a modal component that accepts 3 parameters
+    1.state
+    2.function that mutates the state
+    3.children
+
+2.modal component is conditionaly rendered upon state value
+    {state && modal}
+3.modalbackground has an onclick event that fires 
+  function that changes state to false so we close the modal
+4.modalbody has onclick event that stops propagation of click
+  from background
+5.inside modalbody we have a button that has onclick event that
+  fires a function that changes the value of state to false
+
+6.we set up the state inside the app/ parent component
+  we pass state of the modal to the modal component
+  we also pass a setter function that will change state to false
+
+
+const [modalState,setModalState] = useState(false)
+
+const app = () =>{
+    return(
+        <modal
+            state={modalState}
+            function={()=>setModalState(false)}
+        >
+          <h3>this is children</h3>
+        </modal>
+
+
+
+    )
+}

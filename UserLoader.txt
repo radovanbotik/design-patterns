@@ -1,0 +1,15 @@
+						UserLoader
+
+
+1. We modify the container component to receive 2 props:
+	a.children
+	b.userId
+
+2. We modify our API call to include this new userId prop:
+	const resp = await axios.get(`${URL}/users/${userId}`);
+
+3.In the App we pass userId prop to our container component 
+
+<UserLoader userId={2}>
+  <UserInfo />
+</UserLoader>

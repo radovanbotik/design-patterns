@@ -1,0 +1,47 @@
+					DataSource component
+
+1.We modify the container element to accept 3 props
+	1.1 getDataFn = () => {};
+	1.2 resourceName
+	1.3 children
+
+2.we modify useEffect to await and save the return from getDataFunction
+  to constant data, then we save the data to our state.
+
+3.In the app we render our container component DataSource and pass function to
+  getDataFn. it is an async function that makes call to endpoint and returns
+  response.
+
+<DataSource
+  resourceName={"user"}
+    getDataFn={async () => {
+    const resp = await axios.get("https://reqres.in/api/users/3");
+    return resp.data
+    }}>
+   <UserInfo />
+  </DataSource>
+</>
+
+we could simplify it by creating a function that will accept url as parameter 
+and that function returns another async function with our fetch request function.
+then inside the prop declaration we pass url
+
+const fetchData = url => async () => {
+  const resp = await axios.get(url);
+  return resp.data
+}
+
+getDataFn ={fetchData("https://reqres.in/api/users/3")}
+
+---------------------------------------------------------------------------------
+						LocalStorage
+1.the same can work with local storage
+
+const getLocalStorageData = (key) => () =>{
+return localStorage.getItem(key)
+}
+
+
+<Container getDataFn={getLocalStorageData(item-i-want)}>
+  <Child/>
+</Container>

@@ -1,0 +1,77 @@
+						Controlled Onboarding
+
+1. we create component that accepts 3 parameters
+	1.1 children
+	1.2 currentIndex
+	1.3 onNext function 
+
+# currentIndex is managed inside the parent/App component
+# onNext function is function that increases currentIndex so we can advance 
+# our steps and also we run state setter function inside of it so we manage the data
+# from each individual step there.
+
+2. we create a constant that represents current step
+	2.1 we make sure the children accept is an array using
+	React.Children.toArray(children) so we can advance in our steps using
+	currentIndex
+	const currentStep = React.Children.toArray(children)[currentIndex]
+
+3. from this onboarding element we want to return current step that
+   we props to. in order to make it accept new props we need to clone it
+   but first we need to make sure its valid React.Element
+   if (React.isValidElement(currentStep)){
+   React.CloneElement(currentStep,{goToNext})
+   }
+   return currentStep
+
+# This is basicly just like writing <Step goToNext={goToNext}/>
+
+4. Inside the App we define 2 states
+	4.1 useState for data
+	const[data,setData] = useState({});
+	4.2 useState for currentIndex
+	const [currentIndex,setCurrentIndex] = useState(0)
+
+5. We declare onNext function which increases currentIndex by 1
+   and sets data to stepdata, it receives the data from GoToNext function
+
+   const onNext = (stepdata) => {
+	setCurrentIndex(currentIndex +1)
+	setData(...data,...stepdata)
+   }
+
+6. We pass onNext and currentIndex to our Onboarding component
+
+7. The goToNext function inside Onboarding component runs on click in
+   each step. and inside this function we run the onNext function that accepts
+   data passed from outter function which is GoToNext function.
+
+   const goToNext = (stepdata){
+   	onNext(stepData)
+   }
+
+   #goToNext is sort of just an emptry function that collects
+   and passed down the received data.
+
+8. This set up allows us to have more control over what we render
+   We can set up additional children components that we render only
+   if certain conditions are met.
+
+<ControlledOnboarding currentIndex={currentIndex} onNext={onNext}>
+   <Step1 />
+   <Step2 />
+   {data.age > 65 && <StepDiscount />}
+   <Step3 />
+</ControlledOnboarding>
+ 
+--------------------------------------------------------------------------------
+
+const StepDiscount = ({ goToNext }) => {
+  return (
+    <>
+      <h1>this is optional step</h1>
+      <h2>you qualify for elderly discount</h2>
+      <button onClick={() => goToNext()}>next</button>
+    </>
+  );
+};   

@@ -1,0 +1,6 @@
+						design patterns
+
+1. are effective solutions to common application development problems
+
+2.design patterns !== antipatterns
+

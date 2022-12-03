@@ -1,0 +1,10 @@
+import React from "react";
+
+export const personSmallListItem = ({ person }) => {
+  const { name, age } = person;
+  return (
+    <p>
+      Name : {name}, Age : {age} years
+    </p>
+  );
+};

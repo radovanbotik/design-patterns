@@ -1,0 +1,60 @@
+				Current User Loader Component
+
+1.we create a container element which does loading/fetching for us
+	1.1 we fetch data and store it inside the state
+2.we create a child component that is encapsulated inside the container component
+  in the app component
+  child component accepts 1 parameter that we pass from container component
+
+
+function App() {
+  return (
+    <>
+      <CurrentUserLoader>
+        <UserInfo />
+      </CurrentUserLoader>
+    </>
+  );
+}	
+
+3.in the container component we return a fragment and inside the fragment 
+  we map through React.Children, which we pass 2 things:
+  
+  ###  React.Children.map(children, function[(thisArg)]) ###
+  
+Invokes a function on every immediate child contained 
+within children with this set to thisArg.
+If children is an array it will be traversed and the function will be 
+called for each child in the array. 
+If children is null or undefined, 
+this method will return null or undefined rather than an array.
+
+ -------------------------------------------------------------------------
+  1.children which is array of components nested inside container that we map
+    through
+  2.child is a parameter for function that is used on each child component
+  3.if React.cloneElement is valid React Element then return a clone
+    that REPLACES that element and pass the data from user state as props.
+ -------------------------------------------------------------------------
+   
+  ### React.cloneElement(
+   ### element,[config],[...children]
+  ### )
+
+Clone and return a new React element using element as the starting point. 
+config should contain all new props, key, or ref. 
+The resulting element will have the original element’s props 
+with the new props merged in shallowly. 
+New children will REPLACE existing children. 
+
+
+ return (
+    <>
+      {React.Children.map(children, child => {
+        if (React.isValidElement(child)) {
+          return React.cloneElement(child, { user });
+        }
+        return child;
+      })}
+    </>
+  );

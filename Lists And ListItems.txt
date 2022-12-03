@@ -1,0 +1,24 @@
+						Lists And List Items
+
+1.App renders List Component that passes down 3 arguments:
+	1.an array
+	2.resource which is now just a string
+	3.component which we want to render in the list
+
+2.List accepts 3 parameters
+	1.an array
+	2.resource which will become name of props we pass down to list item
+	3.component we render, our list item
+	
+	<>
+      {items.map((item, index) => (
+        <ItemComponent key={index} {...{ [resource]: item }} />
+      ))}
+      </>
+	
+	{...{ [resource]: item }} === person:item
+	###item is a single object in our array and it is being passed down as person
+	###prop.person
+
+3.Component, List Item accepts/destucture one parameter person
+	1.renders passed data / maps and renders passed data  
