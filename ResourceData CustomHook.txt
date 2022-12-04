@@ -1,0 +1,56 @@
+                        Resource Data Custom Hook
+
+1.  We create custom hook that take in 1 argument a function
+2.  We set up a state to store data and use use useEffect and IFEE to fetch data
+3.  We return state from custom hook
+
+
+export const useResourceHook = (function) => {
+    const [data,setData] = useState(null)
+
+    useEffect(()=>{
+        (
+            async() => {
+                const response = await function()
+                setData(response)
+            }
+        )()
+
+
+    },[function])
+
+
+    return data
+}
+
+4.  Inside the component where we want data we destructure props passed from App,
+    import custom useHook, and axios
+
+import useResourceHook
+import axios
+
+const export Person = ({userId}) => {
+
+const function = async () => {
+    const resp = await axios.get(`url/${userId}`)
+    return resp
+}
+
+const {first_name,last_name,email} = useResourceHook(function)
+
+    return (
+    <>
+    <h3>{first_name}</h3>
+    <h3>{last_name}</h3>
+    <h3>{email}</h3>
+    </>
+    )
+}
+
+5.  in the App we render Person component and pass userId as props
+
+const App = () => {
+    return (
+        <Person userId={2}>
+    )
+}

@@ -1,0 +1,41 @@
+                            Custom Hooks
+1.  We create new component that takes in 1 argument : userId
+
+2.  We set up use state where we stored fetched data
+
+3.  We use useEffect and IIFE to fetch data
+
+4.  We return state from the Hooks
+
+5.  We import the hook into component and extract what we need
+
+---------------------------------------------------------------------------
+
+export const useUser = userId => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      const resp = await axios.get(`https://reqres.in/api/users/${userId}`);
+      setUser(resp.data.data);
+    })();
+  }, [userId]);
+
+  return user;
+};
+
+---------------------------------------------------------------------------
+
+import React from "react";
+import { useUser } from "./useUser";
+
+export const User = () => {
+  const { first_name, last_name, email } = useUser(3) || {};
+  return (
+    <>
+      <h3>{first_name}</h3>
+      <h3>{last_name}</h3>
+      <h3>{email}</h3>
+    </>
+  );
+};
